@@ -1,0 +1,95 @@
+/**********************************************************************
+jack.h
+
+Header file for iJack. Includes varaibles and function declarations.
+Program settings are also here.
+
+(c) 2010 Alexander Joo
+
+***********************************************************************/
+
+1. Overview
+This app simulates sexual arousal by supporting inputs, tracking
+"arousal state" and output actions based on state. It supports multiple
+sub-climax thresholds, as well as a multiple climax.
+
+1a. Primary unit is a "tick" which is 1/10 of a second. Seconds are another
+incremental counter in the game, and is is 10 ticks.
+
+2. Features
+- Believable representation of arousal
+- Input increases arousal, lack of input decreases it
+- Sub-climax thresholds allow for customizable output
+--Sound, video, vibration, etc.
+- Climax causes a special action...
+- Multiple-climax is supported via a cheat.
+
+3. Arousal model (simplified)
+Arousal is represented as a float value with a proper range of 0.0-100.0.
+The CLIMAX threshold is defined at 100, though it is configurable. Actions
+that increase arousal do so linearly, while absence of input results in a
+decay. At first only one input will be supported, though in the future, we
+may want multiple inputs (see Section 4).
+
+Multiple inputs over 1 second are added together, and are incremented per tick
+linearly.
+
+3a. Arousal Decay
+Absence of input results in decay after a period of 1 second.
+
+4. Arousal input
+Physical manipulations of the device result in arousal input. More than
+one physical manipulation results in faster arousal state increases
+(still linear), and the possibility of multiple climax.
+
+Future input
+- Touch via screen
+- Blowing into mic
+- Axial rotation?
+
+5. Arousal output
+0-25 - low level arousal
+25-50 - general arousal
+50-90 - high level arousal
+90-99 - very high level arousal
+100 - climax
+
+
+While under 100, there are
+
+
+6. main()
+The main function contains the core logic for Jackit, and has the following flow:
+
+<Initialize>
+
+<Game Loop>
+
+<Clean up>
+
+6a. Game loop
+Each run through the loop is a "tick". The Each tick in the game is optimized for 40 ms
+in lenght be 40 ms, for an ideal of 25 FPS. If hardware delays slow the system, the FPS
+will drop, as will game running speed.
+
+<tick starts>
+>tick logic runs
+>tick timer sync
+>>set current clock (from last tick) to previous
+>>set new current clock
+>>compare with previous tick (clock length)
+>>if we're fast, sleep configured number of clock cycles to align.
+>>continue.
+
+[previous tick] [current tick] [next tick]
+
+6b. Game window
+The "game window" is a virtual span of time that actions are combined under.
+The window length determins if multiple inputs are combined together, or if a
+decay of arousal begins to occur.
+
+7. Open questions
+Should arousal always decay, regardless of input? 
+
+8. Future features
+--Turn this into a motion based game; somewhat like "bop-it"

@@ -1,0 +1,84 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1038\cocoasubrtf350
+{\fonttbl\f0\fnil\fcharset0 Monaco;}
+{\colortbl;\red255\green255\blue255;}
+\viewkind0
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
+
+\f0\fs20 \cf0 /**********************************************************************\
+JackIt Specification (Version 1.0)\
+\
+Primary design specification file for JackIt (1.0).\
+\
+(c) 2010 Alexander Joo. All right reserved.\
+\
+***********************************************************************/\
+\
+1. Overview\
+This app simulates sexual arousal by supporting inputs, tracking "arousal state" and output actions based on state. It supports multiple sub-climax thresholds, as well as a multiple climax scenario.\
+\
+1a. There may be game elements which enhance this experience; that is, it keeps track of highest score, highest arousal over a period of time, most consecutive climaxes etc...\
+\
+1b. Competition:\
+- Sexy Love Meter app by LOLriffic seems to be the closest in concept. It's stupid though, and has no social features whatsoever.\
+- Hotdog eater is similar.\
+\
+1a. Primary unit is a "tick" which is 1/10 of a second. Seconds are another incremental counter in the game, and is is 10 ticks.\
+\
+2. Features\
+- Believable representation of arousal\
+- Input increases arousal, lack of input decreases it\
+- Sub-climax thresholds allow for customizable output\
+--Sound, video, vibration, etc.\
+- Climax causes a special action...\
+- Multiple-climax is supported via a cheat.\
+\
+3. Arousal model (simplified)\
+Arousal is represented as a float value with a proper range of 0.0-100.0. The CLIMAX threshold is defined at 100, though it is configurable. Actions that increase arousal do so linearly, while absence of input results in a decay. At first only one input will be supported, though in the future, we may want multiple inputs (see Section 4).\
+\
+Multiple inputs over 1 second are added together, and are incremented per tick linearly.\
+\
+3a. Arousal Decay\
+Absence of input results in decay after a period of 1 second.\
+\
+4. Arousal input\
+Physical manipulations of the device result in arousal input. More than one physical manipulation results in faster arousal state increases (still linear), and the possibility of multiple climax.\
+\
+Future input\
+- Touch via screen\
+- Blowing into mic\
+- Axial rotation?\
+\
+5. Arousal output\
+0-25 - low level arousal\
+25-50 - general arousal\
+50-90 - high level arousal\
+90-99 - very high level arousal\
+100 - climax\
+\
+While under 100, there are\
+\
+6. Classes\
+\
+[Game]\
+Stores highest level game logic, including timer interaction, tick tracking and other game functionality. It also initializes the other classes Dude, Scene, and EventLibrary as required for the game.\
+\
+Vars:\
+- CurrentClock\
+- CurrentTick\
+- isOver\
+\
+- init;\
+-- initializes default theme, scene, event library.\
+\
+- initWithTheme:Theme inputTheme;\
+-- takes in a Theme object and initializes the game with it.\
+\
+[Theme] -- package\
+Stores a set of customizable data related to the theme. This includes the scene data, the dude data (thresholds) and events.\
+\
+Vars:\
+- Dude themeDude\
+- Scene themeScene\
+- EventLibrary themeEventLibrary\
+\
+--}
