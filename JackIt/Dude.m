@@ -14,8 +14,8 @@
 - (id)init{
 	// superclass gets initialized first	
 	if (self == [super init]){
-		excitement = 0.0;	
-		decayConstant = 0.99;
+		excitement = 10000.0;	
+		decayConstant = 0.9999;
 
         
 	}
