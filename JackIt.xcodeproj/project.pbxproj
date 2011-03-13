@@ -115,7 +115,6 @@
 				29B97317FDCFA39411CA2CEA /* Resources */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
-				70FE7CD8131CC22900330BD5 /* JackIt-1.0-Specification.rtf */,
 			);
 			name = CustomTemplate;
 			sourceTree = "<group>";
@@ -136,6 +135,7 @@
 				280E754B0DD40C5E005A515E /* MainView.xib */,
 				280E754C0DD40C5E005A515E /* MainWindow.xib */,
 				8D1107310486CEB800E47090 /* JackIt-Info.plist */,
+				70FE7CD8131CC22900330BD5 /* JackIt-1.0-Specification.rtf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
