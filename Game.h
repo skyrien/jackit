@@ -12,7 +12,7 @@
 @interface Game : NSObject {
 // varaibles go here
     int clock, tick;
-    BOOL gameIsOver;
+    BOOL gameRunning;
     Byte inputs;
     Dude* gameDude;
     //Scene* gameScene;
@@ -31,6 +31,9 @@
 
 // Sets the scene based on theme data (is this necessary?)
 - (void) setScene;
+
+//
+- (Dude*) gameDude;
 
 // Increments a tick in the game, and handles all tick logic
 - (BOOL) goTick;

@@ -16,8 +16,12 @@
     // superclass gets initialized first
     if (self == [super init]){
         
+        //Initializes default variables
+        clock = tick = inputs = 0;
+
         // initializes new dude to the gamedude pointer
         // still need to init with theme dude
+        gameRunning = NO;
         gameDude = [[Dude alloc] init];
 		
 	}
@@ -48,9 +52,25 @@
     
 }
 
+- (Dude*) gameDude {
+    return gameDude;
+}
+
+
 // Increments a tick in the game, and handles all tick logic
-- (BOOL) goTick {
+- (int) goTick {
+    //Handle all incrementing and such
+    tick++;
+ 
+    NSLog(@"Started tick #: %i", tick);
+    // Pass inputs to gameDude
+    [gameDude handleInputs:[self collectInputs]];
+    NSLog(@"Excitement now       : %f", [gameDude excitement]);
     
-    
+    // Run standard decay
+    [gameDude decayExcitement];
+    NSLog(@"Excitement decayed to: %f", [gameDude excitement]);
+    // All done, return current tick number
+    return tick;
 }
 @end
