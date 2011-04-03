@@ -17,11 +17,12 @@
     if (self == [super init]){
         
         //Initializes default variables
-        clock = tick = inputs = 0;
+        tick = inputs = 0;
 
+        
         // initializes new dude to the gamedude pointer
         // still need to init with theme dude
-        gameRunning = NO;
+        self.gameState = JIGameNotStarted;
         gameDude = [[Dude alloc] init];
 		
 	}
@@ -58,19 +59,35 @@
 
 
 // Increments a tick in the game, and handles all tick logic
-- (int) goTick {
-    //Handle all incrementing and such
-    tick++;
- 
-    NSLog(@"Started tick #: %i", tick);
-    // Pass inputs to gameDude
-    [gameDude handleInputs:[self collectInputs]];
-    NSLog(@"Excitement now       : %f", [gameDude excitement]);
-    
-    // Run standard decay
-    [gameDude decayExcitement];
-    NSLog(@"Excitement decayed to: %f", [gameDude excitement]);
-    // All done, return current tick number
-    return tick;
+- (void) goTick {
+    if (self.gameState == JIGameStarted)
+    {
+        //Handle all incrementing and such
+        tick++;
+        NSLog(@"Started tick #: %i", tick);
+
+        // Pass inputs to gameDude
+        [gameDude handleInputs:[self collectInputs]];
+        NSLog(@"Excitement now       : %f", gameDude.excitement);
+        
+        // Run standard decay
+        [gameDude decayExcitement];
+        NSLog(@"Excitement decayed to: %f", gameDude.excitement);
+
+    }
+    else
+    {
+        // We don't need to do anything here
+    }
 }
+
+- (void) dealloc {
+    [super dealloc];
+    [gameDude release];
+    //[gameScene dealloc];
+    //[gameEventLibrary dealloc];
+}
+
+@synthesize gameState,tick;
+
 @end
