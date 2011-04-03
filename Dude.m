@@ -14,8 +14,8 @@
 - (id)init{
 	// superclass gets initialized first	
 	if (self == [super init]){
-		excitement = 10000.0;	
-		decayConstant = 0.9999;
+		excitement = 0.0;	
+		decayConstant = 0.03;
 
         
 	}
@@ -33,27 +33,27 @@
 }
 */
 
-// This method gets the current arousal level
-- (float)excitement {
-    return excitement;
+- (CGFloat)decayExcitement {
+    CGFloat subtractValue, decayValue, returnValue;
+    subtractValue = (excitement - 1.0);
+    if (subtractValue < 0) {
+        subtractValue = 0;
+    }
+    decayValue = excitement * (1.0 - decayConstant);
+    
+    // determines the lower of the two, and returns it
+    return excitement = (subtractValue < decayValue) ? subtractValue : decayValue;
 }
 
-// This method sets the current arousal
-- (void)setExcitement:(float)inputExcitement {
-    excitement = inputExcitement;
-}
-
-- (float)decayExcitement {
-    return excitement *= decayConstant;
-}
-
-- (float)handleInputs:(Byte)userInputs {
-    float addToExcitement = 0.0;
+- (CGFloat)handleInputs:(Byte)userInputs {
+    CGFloat addToExcitement = 0.0;
     for (int x = 0; x < 8; x++) {
         addToExcitement += userInputs & 0x0001;
         userInputs = userInputs >> 1;
     }
     return excitement += addToExcitement;
 }
+
+@synthesize excitement,decayConstant;
 
 @end

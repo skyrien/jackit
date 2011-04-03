@@ -11,54 +11,59 @@
 
 @implementation MainViewController
 
-
-/*
-// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
-- (void)viewDidLoad {
-	[super viewDidLoad];
-}
-*/
-
 // Initializes the game if not yet present
 - (Game *)theGame {
 	if (!theGame)
     {
         // This initializes the game, dude, scene, event library
 		theGame = [[Game alloc] init];
-        gameStarted = NO;
+        gameTimer = [NSTimer scheduledTimerWithTimeInterval:0.05 target:self selector:@selector(gameLoop) userInfo:nil repeats:(YES)];
+        
+
     }
 	return theGame;
 }
 
-// This is currently what it takes to start the game--this could 
-// eventually be moved to "viewDidLoad" to autostart
-- (IBAction)ticklePickle:(UIButton *)sender {
+
+- (void)viewDidLoad {
+	[super viewDidLoad];
+
+    // This initializes the game object
     theGame = [self theGame];
-    gameStarted = YES;
-    int tickNumber;
-    // Game loop goes on here
-    while (gameStarted)
-    {
-        tickNumber = [theGame goTick];
-        tickCounter.text = [NSString stringWithFormat:@"Current tick: %i", tickNumber];
-        excitementCounter.text = [NSString stringWithFormat:@"%f",[[theGame gameDude] excitement]];
-//      [excitementBar setValue:[[theGame gameDude] excitement]/100.0];
-        
-        //input handler
-        // wait to finish tick time
-    }
 }
+
+// Starts game if not started, pauses if it is started
+- (IBAction)ticklePickle:(UIButton *)sender {
+//    NSInteger tickNumber;
+    if (theGame.gameState == JIGameNotStarted)
+        theGame.gameState = JIGameStarted;
+    else if (theGame.gameState == JIGameStarted)
+        theGame.gameState = JIGamePaused;
+    
+    //input handler
+}
+
+- (IBAction)setDecayValue:(UISlider *)sender {
+    [theGame gameDude].decayConstant = sender.value;
+    decayValue.text = [NSString stringWithFormat:@"%f", sender.value];
+}
+
+- (void) gameLoop {
+    [theGame goTick];
+    
+    // These are UI outputs based on game state
+    tickCounter.text = [NSString stringWithFormat:@"Current tick: %i", theGame.tick];
+    excitementCounter.text = [NSString stringWithFormat:@"%f",[[theGame gameDude] excitement]];
+    excitementBar.progress = [[theGame gameDude] excitement] * 0.01;
+    
+}
+
 
 // Should this only work if the game is started?
 - (IBAction)setExcitementButton:(UIButton *)sender {
-    if (!gameStarted) // Do nothing if the game hasn't started
-        return;
-    else // If the game has started, set the excitement value
-    {
-        NSString *value = [[sender titleLabel] text];
-        NSLog(@"The excitement value set to: %@", value);        
-        [[theGame gameDude] setExcitement:[value floatValue]];
-    }
+    NSString *value = [[sender titleLabel] text];
+    NSLog(@"The excitement value set to: %@", value);        
+    [[theGame gameDude] setExcitement:[value floatValue]];
     
 }
 
@@ -71,7 +76,13 @@
 
 // This is the (i) button that switches to the flipside view
 - (IBAction)showInfo:(id)sender {    
-	
+    
+    
+    /* //This code ends the game if it is running
+    if ((theGame.gameState == JIGameStarted)||(theGame.gameState == JIGamePaused))
+        theGame.gameState = JIGameOver;
+    */
+    
 	FlipsideViewController *controller = [[FlipsideViewController alloc] initWithNibName:@"FlipsideView" bundle:nil];
 	controller.delegate = self;
 	
@@ -107,6 +118,7 @@
 
 - (void)dealloc {
     [super dealloc];
+    [theGame release];
 }
 
 

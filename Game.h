@@ -9,15 +9,25 @@
 #import <Foundation/Foundation.h>
 #import "Dude.h"
 
+// Useful variables
+#define JIGameNotStarted 0
+#define JIGameStarted 1
+#define JIGamePaused 2
+#define JIGameOver 3
+
 @interface Game : NSObject {
 // varaibles go here
-    int clock, tick;
-    BOOL gameRunning;
+
+    NSInteger tick;
+    NSInteger gameState;
     Byte inputs;
     Dude* gameDude;
     //Scene* gameScene;
     //EventLibrary* gameEventLibrary;
 }
+
+@property(nonatomic) NSInteger gameState;
+@property(nonatomic) NSInteger tick;
 
 // Initializes the game, and dependent objects such as Dude, Scene and EventLibrary
 // Calls initWithTheme
@@ -36,6 +46,6 @@
 - (Dude*) gameDude;
 
 // Increments a tick in the game, and handles all tick logic
-- (BOOL) goTick;
+- (void) goTick;
 
 @end

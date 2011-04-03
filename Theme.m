@@ -10,5 +10,17 @@
 
 
 @implementation Theme
+// This function initializes a basic theme
+- (id) init {
+    
+}
 
+// This function initializes a theme from a file
+//- (id) initFromFile;
+
+
+// This function takes the current theme, and serializes it into a binary
+- (void) exportToFile {
+    
+}
 @end

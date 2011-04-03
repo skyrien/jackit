@@ -11,12 +11,14 @@
 
 @interface Dude : NSObject {
 	//lets get some variables here
-	float excitement;
-    float decayConstant;
-	
+	CGFloat excitement;
+    CGFloat decayConstant;
 	// should add threshold dictionary here--this should be an array of structs
     
 }
+
+@property CGFloat excitement;
+@property CGFloat decayConstant;
 
 //method declarations should go here
 
@@ -27,18 +29,12 @@
 - (id)initWithThresholds:(NSArray)thresholds;
 */
 
-// This method gets the current arousal level
-- (float)excitement;
-
-// This method sets the current arousal
-- (void)setExcitement:(float)inputExcitement;
-
 // This method decays the excitement level per tick, and 
 // returns the new value
-- (float)decayExcitement;
+- (CGFloat)decayExcitement;
 
 // This method receives the inputs and returns the new value
-- (float)handleInputs:(Byte)userInputs;
+- (CGFloat)handleInputs:(Byte)userInputs;
 
 
 // Check thresholds
