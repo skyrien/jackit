@@ -44,8 +44,8 @@
 }
 
 - (IBAction)setDecayValue:(UISlider *)sender {
-    [theGame gameDude].decayConstant = sender.value;
-    decayValue.text = [NSString stringWithFormat:@"%f", sender.value];
+    //[theGame gameDude].decayConstant = sender.value;
+    //decayValue.text = [NSString stringWithFormat:@"%f", sender.value];
 }
 
 - (void) gameLoop {
