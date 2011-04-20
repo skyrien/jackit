@@ -8,6 +8,7 @@
 
 #import "FlipsideViewController.h"
 #import "Game.h"
+#define TICKDURATION 0.03
 
 @interface MainViewController : UIViewController <FlipsideViewControllerDelegate> {
     IBOutlet UILabel *excitementCounter; // This is the "arousal number"

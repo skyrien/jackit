@@ -15,6 +15,10 @@
 #define JIGamePaused 2
 #define JIGameOver 3
 
+#define ISSHAKING 0x1
+#define ISTOUCHED 0x2
+#define IS
+
 @interface Game : NSObject {
 // varaibles go here
 
@@ -28,6 +32,7 @@
 
 @property(nonatomic) NSInteger gameState;
 @property(nonatomic) NSInteger tick;
+
 
 // Initializes the game, and dependent objects such as Dude, Scene and EventLibrary
 // Calls initWithTheme
