@@ -17,7 +17,7 @@
     {
         // This initializes the game, dude, scene, event library
 		theGame = [[Game alloc] init];
-        gameTimer = [NSTimer scheduledTimerWithTimeInterval:0.05 target:self selector:@selector(gameLoop) userInfo:nil repeats:(YES)];
+        gameTimer = [NSTimer scheduledTimerWithTimeInterval:TICKDURATION target:self selector:@selector(gameLoop) userInfo:nil repeats:(YES)];
         
 
     }
@@ -49,6 +49,7 @@
 }
 
 - (void) gameLoop {
+    //Initiates a tick
     [theGame goTick];
     
     // These are UI outputs based on game state

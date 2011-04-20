@@ -15,7 +15,7 @@
 	// superclass gets initialized first	
 	if (self == [super init]){
 		excitement = 0.0;	
-		decayConstant = 0.03;
+		decayConstant = DECAYCONSTANT;
 
         
 	}
@@ -51,7 +51,7 @@
         addToExcitement += userInputs & 0x0001;
         userInputs = userInputs >> 1;
     }
-    return excitement += addToExcitement;
+    return excitement += (addToExcitement * EXCITEMENTMULTIPLIER);
 }
 
 @synthesize excitement,decayConstant;

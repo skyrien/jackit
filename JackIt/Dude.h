@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+#define DECAYCONSTANT 0.01
+#define EXCITEMENTMULTIPLIER 1
 
 @interface Dude : NSObject {
 	//lets get some variables here

@@ -43,6 +43,20 @@ Absence of input results in decay after a period of 1 second.\
 4. Arousal input\
 Physical manipulations of the device result in arousal input. More than one physical manipulation results in faster arousal state increases (still linear), and the possibility of multiple climax.\
 \
+The shaking is represented by a single byte for processing within the tick. The byte has the following mapping\
+\
+					|---|---|---|---|---|---|---|---|\
+byte collectedInputs = 	| 7 | 6 | 5 | 4 | 3 | 2 | 1 | 0 |;\
+					|---|---|---|---|---|---|---|---|\
+0 - Shaking\
+1 - Touching / Rubbing?\
+2 - Blowing (sound input)\
+3 - Twisting (axial rotation)\
+4 - Button presses (volume up/down)\
+5 - Unassigned\
+6 - Unassigned\
+7 - Unassigned\
+\
 Future input\
 - Touch via screen\
 - Blowing into mic\

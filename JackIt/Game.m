@@ -14,7 +14,7 @@
 - (id)init{
 
     // superclass gets initialized first
-    if (self == [super init]){
+    if ((self = [super init])){
         
         //Initializes default variables
         tick = inputs = 0;
@@ -38,13 +38,16 @@
     
 // Collects UI inputs to generate output to Dude
 - (Byte) collectInputs {
+    
+    // The collected inputs byte represents the current state of all inputs
+    // as either a on/off bit
     Byte collectedInputs = 0;
     return collectedInputs;
 }
 
 // Get's the dude's current threshold value
 - (float) excitementLevel {
-    return [gameDude excitement];
+    return gameDude.excitement;
 }
 
 
