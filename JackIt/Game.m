@@ -17,7 +17,7 @@
     if ((self = [super init])){
         
         //Initializes default variables
-        tick = inputs = 0;
+        tick = 0;
 
         
         // initializes new dude to the gamedude pointer
@@ -35,15 +35,7 @@
     // Theme import logic goes here
     return self;
 }
-    
-// Collects UI inputs to generate output to Dude
-- (Byte) collectInputs {
-    
-    // The collected inputs byte represents the current state of all inputs
-    // as either a on/off bit
-    Byte collectedInputs = 0;
-    return collectedInputs;
-}
+
 
 // Get's the dude's current threshold value
 - (float) excitementLevel {
@@ -62,20 +54,20 @@
 
 
 // Increments a tick in the game, and handles all tick logic
-- (void) goTick {
+- (void) goTick:(Byte)inputs {
     if (self.gameState == JIGameStarted)
     {
         //Handle all incrementing and such
         tick++;
-        NSLog(@"Started tick #: %i", tick);
+//        NSLog(@"Started tick #: %i", tick);
 
         // Pass inputs to gameDude
-        [gameDude handleInputs:[self collectInputs]];
-        NSLog(@"Excitement now       : %f", gameDude.excitement);
+        [gameDude handleInputs:inputs];
+//       NSLog(@"Excitement now       : %f", gameDude.excitement);
         
         // Run standard decay
         [gameDude decayExcitement];
-        NSLog(@"Excitement decayed to: %f", gameDude.excitement);
+//        NSLog(@"Excitement decayed to: %f", gameDude.excitement);
 
     }
     else
@@ -91,6 +83,6 @@
     //[gameEventLibrary dealloc];
 }
 
-@synthesize gameState,tick;
+@synthesize gameState,tick,inputs;
 
 @end

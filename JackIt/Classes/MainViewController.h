@@ -18,11 +18,19 @@
     Game *theGame; // a pointer to a game object
     NSString* currentExcitement; // May or may not be useful
     NSTimer* gameTimer;
-    
+    Byte currentInputs; // holds the current state of all excitement inputs
 }
 
+// General behavioral functions
+- (void)viewDidAppear:(BOOL)animated;
+- (BOOL)canBecomeFirstResponder;
+- (void)motionBegan:(UIEventSubtype)motion withEvent:(UIEvent *)event;
+- (void)motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event;
+- (void)motionCancelled:(UIEventSubtype)motion withEvent:(UIEvent *)event;
+
+
 // This function starts the game
-- (IBAction)ticklePickle:(UIButton *)sender;
+- (IBAction)ticklePickle:(UIBarButtonItem *)sender;
 
 - (IBAction)setExcitementButton:(UIButton *)sender;
 
