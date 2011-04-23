@@ -8,19 +8,22 @@
 
 #import <Foundation/Foundation.h>
 
-#define DECAYCONSTANT 0.01
+#define DECAYCONSTANT 0.005
 #define EXCITEMENTMULTIPLIER 1
+#define EXCITEMENTECHO 30
 
 @interface Dude : NSObject {
 	//lets get some variables here
 	CGFloat excitement;
     CGFloat decayConstant;
+    NSInteger excitementEcho;
 	// should add threshold dictionary here--this should be an array of structs
     
 }
 
 @property CGFloat excitement;
 @property CGFloat decayConstant;
+@property NSInteger excitementEcho;
 
 //method declarations should go here
 

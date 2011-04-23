@@ -18,7 +18,6 @@
         // This initializes the game, dude, scene, event library
 		theGame = [[Game alloc] init];
         gameTimer = [NSTimer scheduledTimerWithTimeInterval:TICKDURATION target:self selector:@selector(gameLoop) userInfo:nil repeats:(YES)];
-        
 
     }
 	return theGame;
@@ -27,15 +26,58 @@
 
 - (void)viewDidLoad {
 	[super viewDidLoad];
-
+    
     // This initializes the game object
     theGame = [self theGame];
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    // This sets up the view to begin accepting event data
+    [self becomeFirstResponder];
+    
+}
+
+
+// KEY BEHAVIOR FUNCTIONS START HERE
+- (BOOL)canBecomeFirstResponder {
+    return YES;
+}
+
+// Handles beginning of iOS motion, such as shaking
+- (void)motionBegan:(UIEventSubtype)motion withEvent:(UIEvent *)event {
+    if (motion == UIEventSubtypeMotionShake)
+    {
+        currentInputs |= ISSHAKING; // if zero will set it to one
+        NSLog(@"Shaking started at tick: %i", theGame.tick);
+    }
+}
+
+// Handles effective completion of ending a motion event
+- (void)motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event {
+    if (motion == UIEventSubtypeMotionShake)
+    {
+        currentInputs &= ~ISSHAKING; // if one, this needs to set it to zero
+        NSLog(@"Shaking ended at tick: %i", theGame.tick);
+    }
+    
+}
+
+// Handles the cancellation of a motion event
+- (void)motionCancelled:(UIEventSubtype)motion withEvent:(UIEvent *)event {
+    if (motion == UIEventSubtypeMotionShake)
+    {
+        currentInputs &= ~ISSHAKING; // if one, this needs to set it to zero
+        NSLog(@"Shaking cancelled at tick: %i", theGame.tick);
+    }
+}
+
+
+// GAME FUNCTIONS START HERE
+
 // Starts game if not started, pauses if it is started
-- (IBAction)ticklePickle:(UIButton *)sender {
+- (IBAction)ticklePickle:(UIBarButtonItem *)sender {
 //    NSInteger tickNumber;
-    if (theGame.gameState == JIGameNotStarted)
+    if (theGame.gameState == JIGameNotStarted || theGame.gameState == JIGamePaused)
         theGame.gameState = JIGameStarted;
     else if (theGame.gameState == JIGameStarted)
         theGame.gameState = JIGamePaused;
@@ -50,7 +92,7 @@
 
 - (void) gameLoop {
     //Initiates a tick
-    [theGame goTick];
+    [theGame goTick:currentInputs];
     
     // These are UI outputs based on game state
     tickCounter.text = [NSString stringWithFormat:@"Current tick: %i", theGame.tick];
