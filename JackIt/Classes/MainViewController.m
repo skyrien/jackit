@@ -77,12 +77,14 @@
 // Starts game if not started, pauses if it is started
 - (IBAction)ticklePickle:(UIBarButtonItem *)sender {
 //    NSInteger tickNumber;
-    if (theGame.gameState == JIGameNotStarted || theGame.gameState == JIGamePaused)
+    if (theGame.gameState == JIGameNotStarted || theGame.gameState == JIGamePaused) {
         theGame.gameState = JIGameStarted;
-    else if (theGame.gameState == JIGameStarted)
+        sender.title = @"Pause";
+    }
+    else if (theGame.gameState == JIGameStarted) {
         theGame.gameState = JIGamePaused;
-    
-    //input handler
+        sender.title = @"Start";
+    }
 }
 
 - (IBAction)setDecayValue:(UISlider *)sender {
@@ -101,8 +103,6 @@
     
 }
 
-
-// Should this only work if the game is started?
 - (IBAction)setExcitementButton:(UIButton *)sender {
     NSString *value = [[sender titleLabel] text];
     NSLog(@"The excitement value set to: %@", value);        
