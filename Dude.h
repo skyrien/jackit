@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-#define DECAYCONSTANT 0.005
+#define DECAYCONSTANT 0.01
 #define EXCITEMENTMULTIPLIER 1
 #define EXCITEMENTECHO 30
 
