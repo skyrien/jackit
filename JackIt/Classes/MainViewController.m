@@ -105,11 +105,17 @@
     }
 }
 
-- (IBAction)setDecayValue:(UISlider *)sender {
-    //[theGame gameDude].decayConstant = sender.value;
-    //decayValue.text = [NSString stringWithFormat:@"%f", sender.value];
-}
+/*
+- (IBAction)setDecayConstant:(UISlider *)sender {
 
+    if (sender.value)
+    {
+        [theGame gameDude].decayConstant = sender.value;
+        decayValue.text = [NSString stringWithFormat:@"%f", sender.value];        
+    }
+}
+*/
+ 
 - (void) gameLoop {
     //Initiates a tick
     
