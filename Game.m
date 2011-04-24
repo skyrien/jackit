@@ -18,7 +18,7 @@
         
         //Initializes default variables
         tick = 0;
-
+        aggregateAcceleration = 0;
         
         // initializes new dude to the gamedude pointer
         // still need to init with theme dude
@@ -53,8 +53,38 @@
 }
 
 
+- (Byte) motionToInputs:(CMDeviceMotion*)deviceMotion {
+    
+    Byte inputs = 0;
+    // What happens here? Do I need to retain/release here?
+    accelerationData = deviceMotion.userAcceleration;
+    aggregateAcceleration = sqrt((accelerationData.x * accelerationData.x +
+                            accelerationData.y * accelerationData.y +
+                            accelerationData.y * accelerationData.z));
+    rotationData = deviceMotion.rotationRate;
+//    aggregateRotation = sqrt(rotationData.x * rotationData.x +
+//                             rotationData.y * rotationData.y +
+//                             rotationData.z * rotationData.z);
+
+    aggregateRotation = fabs(rotationData.y);
+    
+    // If the aggregate acceleration exceeds a value, we should set shaking to yes
+    if (aggregateAcceleration > SHAKINGTHRESHOLD)
+    {
+        inputs |= ISSHAKING;
+        NSLog(@"Aggregate acceleration is %f",aggregateAcceleration);
+    }
+
+    if (aggregateRotation > ROTATIONTHRESHOLD)
+    {
+        inputs |= ISTWISTING;
+        NSLog(@"Aggregate rotataion is %f",aggregateRotation);
+    }
+    return inputs;
+}
+
 // Increments a tick in the game, and handles all tick logic
-- (void) goTick:(Byte)inputs {
+- (void) goTick:(CMDeviceMotion*)deviceMotion {
     if (self.gameState == JIGameStarted)
     {
         //Handle all incrementing and such
@@ -62,7 +92,7 @@
 //        NSLog(@"Started tick #: %i", tick);
 
         // Pass inputs to gameDude
-        [gameDude handleInputs:inputs];
+        [gameDude handleInputs:[self motionToInputs:deviceMotion]];
 //       NSLog(@"Excitement now       : %f", gameDude.excitement);
         
         // Run standard decay
@@ -83,6 +113,6 @@
     //[gameEventLibrary dealloc];
 }
 
-@synthesize gameState,tick,inputs;
+@synthesize gameState,tick,gameDude,accelerationData,aggregateAcceleration,aggregateRotation;
 
 @end

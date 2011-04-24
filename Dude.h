@@ -16,14 +16,14 @@
 	//lets get some variables here
 	CGFloat excitement;
     CGFloat decayConstant;
-    NSInteger excitementEcho;
+    NSInteger excitementNum;
 	// should add threshold dictionary here--this should be an array of structs
     
 }
 
 @property CGFloat excitement;
 @property CGFloat decayConstant;
-@property NSInteger excitementEcho;
+@property NSInteger excitementNum;
 
 //method declarations should go here
 
@@ -36,10 +36,10 @@
 
 // This method decays the excitement level per tick, and 
 // returns the new value
-- (CGFloat)decayExcitement;
+- (void)decayExcitement;
 
 // This method receives the inputs and returns the new value
-- (CGFloat)handleInputs:(Byte)userInputs;
+- (void)handleInputs:(Byte)userInputs;
 
 
 // Check thresholds

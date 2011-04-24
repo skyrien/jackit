@@ -6,7 +6,7 @@
 //  Copyright 2011 __MyCompanyName__. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import <CoreMotion/CMMotionManager.h>
 #import "Dude.h"
 
 // Useful variables
@@ -20,6 +20,8 @@
 #define ISBLOWING 0x04
 #define ISTWISTING 0x08
 #define ISBUTTONED 0x10
+#define SHAKINGTHRESHOLD 1.0
+#define ROTATIONTHRESHOLD 15.0
 
 @interface Game : NSObject {
 // varaibles go here
@@ -29,12 +31,20 @@
     Dude* gameDude;
     //Scene* gameScene;
     //EventLibrary* gameEventLibrary;
+    
+    CMAcceleration accelerationData;
+    CMRotationRate rotationData;
+    CGFloat aggregateAcceleration;
+    CGFloat aggregateRotation;
 }
 
 @property(nonatomic) NSInteger gameState;
 @property(nonatomic) NSInteger tick;
-@property(nonatomic) Byte inputs;
-
+//@property(nonatomic) Byte inputs;
+@property(readonly) CMAcceleration accelerationData;
+@property(readonly) CGFloat aggregateAcceleration;
+@property(readonly) CGFloat aggregateRotation;
+@property(readonly) Dude* gameDude;
 
 // Initializes the game, and dependent objects such as Dude, Scene and EventLibrary
 // Calls initWithTheme
@@ -46,10 +56,11 @@
 // Sets the scene based on theme data (is this necessary?)
 - (void) setScene;
 
-//
 - (Dude*) gameDude;
 
+- (Byte) motionToInputs:(CMDeviceMotion*)deviceMotion;
+
 // Increments a tick in the game, and handles all tick logic
-- (void) goTick:(Byte)inputs;
+- (void) goTick:(CMDeviceMotion*)deviceMotion;
 
 @end

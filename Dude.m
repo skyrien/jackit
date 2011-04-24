@@ -15,7 +15,7 @@
 	// superclass gets initialized first	
 	if (self == [super init]){
 		excitement = 0.0;
-        excitementEcho = 0;
+        excitementNum = 0;
 		decayConstant = DECAYCONSTANT;
 
         
@@ -34,28 +34,33 @@
 }
 */
 
-- (CGFloat)decayExcitement {
+- (void)decayExcitement {
     CGFloat subtractValue, decayValue;
     subtractValue = (excitement - 0.5);
     if (subtractValue < 0) {
-        subtractValue = 0;
-        return subtractValue;
+        excitement = 0;
+        return;
     }
     decayValue = excitement * (1.0 - decayConstant);
     
-    // determines the lower of the two, and returns it
-    return excitement = (subtractValue < decayValue) ? subtractValue : decayValue;
+    // determines the lower of the two, and sets it to excitement
+    excitement = (subtractValue <= decayValue) ? subtractValue : decayValue;
 }
 
-- (CGFloat)handleInputs:(Byte)userInputs {
+- (void)handleInputs:(Byte)userInputs {
     CGFloat addToExcitement = 0.0;
     for (int x = 0; x < 8; x++) {
         addToExcitement += userInputs & 0x0001;
         userInputs >>= 1;
     }
-    return excitement += (addToExcitement * EXCITEMENTMULTIPLIER);
+    if (addToExcitement > 0)
+    {
+        excitement += (addToExcitement * EXCITEMENTMULTIPLIER);
+        excitementNum++;
+    }
+    else excitementNum = 0;
 }
 
-@synthesize excitement,decayConstant,excitementEcho;
+@synthesize excitement,decayConstant,excitementNum;
 
 @end

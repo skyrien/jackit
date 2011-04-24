@@ -8,7 +8,6 @@
 
 #import "MainViewController.h"
 
-
 @implementation MainViewController
 
 // Initializes the game if not yet present
@@ -18,11 +17,16 @@
         // This initializes the game, dude, scene, event library
 		theGame = [[Game alloc] init];
         gameTimer = [NSTimer scheduledTimerWithTimeInterval:TICKDURATION target:self selector:@selector(gameLoop) userInfo:nil repeats:(YES)];
+        
+        motionManager = [[CMMotionManager alloc] init]; // CoreMotion manager
+        //        motionManager.accelerometerUpdateInterval = TICKDURATION;
+        //        motionManager.gyroUpdateInterval = TICKDURATION;
+        motionManager.deviceMotionUpdateInterval = TICKDURATION;
+        deviceMotion = motionManager.deviceMotion;
 
     }
 	return theGame;
 }
-
 
 - (void)viewDidLoad {
 	[super viewDidLoad];
@@ -43,12 +47,13 @@
     return YES;
 }
 
+/* // SHAKING HANDLING DATA
 // Handles beginning of iOS motion, such as shaking
 - (void)motionBegan:(UIEventSubtype)motion withEvent:(UIEvent *)event {
     if (motion == UIEventSubtypeMotionShake)
     {
         currentInputs |= ISSHAKING; // if zero will set it to one
-        NSLog(@"Shaking started at tick: %i", theGame.tick);
+        NSLog(@"Shaking STARTED at tick: %i", theGame.tick);
     }
 }
 
@@ -57,7 +62,7 @@
     if (motion == UIEventSubtypeMotionShake)
     {
         currentInputs &= ~ISSHAKING; // if one, this needs to set it to zero
-        NSLog(@"Shaking ended at tick: %i", theGame.tick);
+        NSLog(@"Shaking lasting for %i ticks ENDED at tick %i",theGame.gameDude.excitementNum,theGame.tick);
     }
     
 }
@@ -67,10 +72,10 @@
     if (motion == UIEventSubtypeMotionShake)
     {
         currentInputs &= ~ISSHAKING; // if one, this needs to set it to zero
-        NSLog(@"Shaking cancelled at tick: %i", theGame.tick);
+        NSLog(@"Shaking lasting for %i ticks CANCELLED at tick %i",theGame.gameDude.excitementNum,theGame.tick);
     }
 }
-
+*/
 
 // GAME FUNCTIONS START HERE
 
@@ -80,10 +85,23 @@
     if (theGame.gameState == JIGameNotStarted || theGame.gameState == JIGamePaused) {
         theGame.gameState = JIGameStarted;
         sender.title = @"Pause";
+
+        //Enables perodic sensor updates with new data
+//        [motionManager startAccelerometerUpdates];
+//        [motionManager startGyroUpdates];
+        if (motionManager.deviceMotionAvailable)
+            [motionManager startDeviceMotionUpdates];
+        NSLog(@"Game started. Current tick: %i", theGame.tick);
     }
     else if (theGame.gameState == JIGameStarted) {
         theGame.gameState = JIGamePaused;
         sender.title = @"Start";
+
+        //Disables perodic sensor updates with new data
+//        [motionManager stopAccelerometerUpdates];
+//        [motionManager stopGyroUpdates];
+        [motionManager stopDeviceMotionUpdates];
+        NSLog(@"Game paused. Current tick: %i", theGame.tick);
     }
 }
 
@@ -94,10 +112,13 @@
 
 - (void) gameLoop {
     //Initiates a tick
-    [theGame goTick:currentInputs];
+    
+    [theGame goTick:motionManager.deviceMotion];
     
     // These are UI outputs based on game state
-    tickCounter.text = [NSString stringWithFormat:@"Current tick: %i", theGame.tick];
+    accelData.text = [NSString stringWithFormat:@"x:%f y:%f z:%f", theGame.accelerationData.x,theGame.accelerationData.y,theGame.accelerationData.z];
+    twistData.text = [NSString stringWithFormat:@"Rotation is: %f", theGame.aggregateRotation];
+    tickCounter.text = [NSString stringWithFormat:@"Current Tick: %i", theGame.tick];
     excitementCounter.text = [NSString stringWithFormat:@"%f",[[theGame gameDude] excitement]];
     excitementBar.progress = [[theGame gameDude] excitement] * 0.01;
     
