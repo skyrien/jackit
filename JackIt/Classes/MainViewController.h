@@ -6,6 +6,8 @@
 //  Copyright 2011 __MyCompanyName__. All rights reserved.
 //
 
+#import <CoreMotion/CMMotionManager.h>
+#import <Foundation/Foundation.h>
 #import "FlipsideViewController.h"
 #import "Game.h"
 #define TICKDURATION 0.03
@@ -14,20 +16,31 @@
     IBOutlet UILabel *excitementCounter; // This is the "arousal number"
     IBOutlet UILabel *tickCounter; // This is the game tick
     IBOutlet UILabel *decayValue; // This is the game tick
+    IBOutlet UILabel *accelData;
+    IBOutlet UILabel *twistData;
     IBOutlet UIProgressView *excitementBar; // This is a visual representation of arounsal
+
+    // Core came objects
     Game *theGame; // a pointer to a game object
+    CMMotionManager *motionManager;
+    CMDeviceMotion *deviceMotion;
+    
+    // Core game data
     NSString* currentExcitement; // May or may not be useful
     NSTimer* gameTimer;
+    double acceleration[3];
     Byte currentInputs; // holds the current state of all excitement inputs
 }
 
 // General behavioral functions
 - (void)viewDidAppear:(BOOL)animated;
 - (BOOL)canBecomeFirstResponder;
+
+/*
 - (void)motionBegan:(UIEventSubtype)motion withEvent:(UIEvent *)event;
 - (void)motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event;
 - (void)motionCancelled:(UIEventSubtype)motion withEvent:(UIEvent *)event;
-
+*/
 
 // This function starts the game
 - (IBAction)ticklePickle:(UIBarButtonItem *)sender;
