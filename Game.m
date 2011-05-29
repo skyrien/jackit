@@ -59,8 +59,8 @@
     // What happens here? Do I need to retain/release here?
     accelerationData = deviceMotion.userAcceleration;
     aggregateAcceleration = sqrt((accelerationData.x * accelerationData.x +
-                            accelerationData.y * accelerationData.y +
-                            accelerationData.y * accelerationData.z));
+                                  accelerationData.y * accelerationData.y +
+                                  accelerationData.z * accelerationData.z));
     rotationData = deviceMotion.rotationRate;
 //    aggregateRotation = sqrt(rotationData.x * rotationData.x +
 //                             rotationData.y * rotationData.y +
@@ -74,17 +74,22 @@
         inputs |= ISSHAKING;
         NSLog(@"Aggregate acceleration is %f",aggregateAcceleration);
     }
+    else if (aggregateAcceleration < 0.03)
+        aggregateAcceleration = 0;
 
     if (aggregateRotation > ROTATIONTHRESHOLD)
     {
         inputs |= ISTWISTING;
         NSLog(@"Aggregate rotataion is %f",aggregateRotation);
     }
+    else if (aggregateRotation < 0.03)
+        aggregateRotation = 0;
+    
     return inputs;
 }
 
-// Increments a tick in the game, and handles all tick logic
-- (void) goTick:(CMDeviceMotion*)deviceMotion {
+// Increments a tick in the game, and handles all tick logic, including executing events
+- (void) goTick:(CMMotionManager*)motionManager {
     if (self.gameState == JIGameStarted)
     {
         //Handle all incrementing and such
@@ -92,8 +97,11 @@
 //        NSLog(@"Started tick #: %i", tick);
 
         // Pass inputs to gameDude
-        [gameDude handleInputs:[self motionToInputs:deviceMotion]];
+        [gameDude handleInputs:[self motionToInputs:motionManager.deviceMotion]];
 //       NSLog(@"Excitement now       : %f", gameDude.excitement);
+        
+    // HANDLE TICK THRESHOLD RELATED EVENTS HERE
+    // HANDLE CLIMAX EVENTS HERE AS WELL
         
         // Run standard decay
         [gameDude decayExcitement];

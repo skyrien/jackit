@@ -1,5 +1,5 @@
 //
-//  MainViewController.m
+//  PlayViewController.m
 //  JackIt
 //
 //  Created by Alexander Joo on 1/19/11.
@@ -47,36 +47,6 @@
     return YES;
 }
 
-/* // SHAKING HANDLING DATA
-// Handles beginning of iOS motion, such as shaking
-- (void)motionBegan:(UIEventSubtype)motion withEvent:(UIEvent *)event {
-    if (motion == UIEventSubtypeMotionShake)
-    {
-        currentInputs |= ISSHAKING; // if zero will set it to one
-        NSLog(@"Shaking STARTED at tick: %i", theGame.tick);
-    }
-}
-
-// Handles effective completion of ending a motion event
-- (void)motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event {
-    if (motion == UIEventSubtypeMotionShake)
-    {
-        currentInputs &= ~ISSHAKING; // if one, this needs to set it to zero
-        NSLog(@"Shaking lasting for %i ticks ENDED at tick %i",theGame.gameDude.excitementNum,theGame.tick);
-    }
-    
-}
-
-// Handles the cancellation of a motion event
-- (void)motionCancelled:(UIEventSubtype)motion withEvent:(UIEvent *)event {
-    if (motion == UIEventSubtypeMotionShake)
-    {
-        currentInputs &= ~ISSHAKING; // if one, this needs to set it to zero
-        NSLog(@"Shaking lasting for %i ticks CANCELLED at tick %i",theGame.gameDude.excitementNum,theGame.tick);
-    }
-}
-*/
-
 // GAME FUNCTIONS START HERE
 
 // Starts game if not started, pauses if it is started
@@ -119,14 +89,15 @@
 - (void) gameLoop {
     //Initiates a tick
     
-    [theGame goTick:motionManager.deviceMotion];
+    [theGame goTick:motionManager];
     
     // These are UI outputs based on game state
-    accelData.text = [NSString stringWithFormat:@"x:%f y:%f z:%f", theGame.accelerationData.x,theGame.accelerationData.y,theGame.accelerationData.z];
-    twistData.text = [NSString stringWithFormat:@"Rotation is: %f", theGame.aggregateRotation];
-    tickCounter.text = [NSString stringWithFormat:@"Current Tick: %i", theGame.tick];
+    accelData.text = [NSString stringWithFormat:@"Acceleration: %f", theGame.aggregateAcceleration];
+    twistData.text = [NSString stringWithFormat:@"Rotation    : %f", theGame.aggregateRotation];
+    tickCounter.text = [NSString stringWithFormat:@"Game Tick   : %i", theGame.tick];
     excitementCounter.text = [NSString stringWithFormat:@"%f",[[theGame gameDude] excitement]];
     excitementBar.progress = [[theGame gameDude] excitement] * 0.01;
+    gameTime.text = [NSString stringWithFormat:@"Game Time   : %f", theGame.tick * TICKDURATION];
     
 }
 

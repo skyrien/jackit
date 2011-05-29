@@ -13,10 +13,12 @@
 @interface JackItAppDelegate : NSObject <UIApplicationDelegate> {
     UIWindow *window;
     MainViewController *mainViewController;
+    UINavigationController *jackitNavigator;
 }
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;
 @property (nonatomic, retain) IBOutlet MainViewController *mainViewController;
+@property (nonatomic, retain) IBOutlet UINavigationController *jackitNavigator;
 
 @end
 

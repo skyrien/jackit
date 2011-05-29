@@ -61,6 +61,6 @@
 - (Byte) motionToInputs:(CMDeviceMotion*)deviceMotion;
 
 // Increments a tick in the game, and handles all tick logic
-- (void) goTick:(CMDeviceMotion*)deviceMotion;
+- (void) goTick:(CMMotionManager*)motionManager;
 
 @end
