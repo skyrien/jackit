@@ -14,6 +14,7 @@
 
 @synthesize window;
 @synthesize mainViewController;
+@synthesize jackitNavigator;
 
 
 #pragma mark -
@@ -21,10 +22,14 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {    
     
-    // Override point for customization after application launch.  
+    // Override point for customization after application launch.
+    //-- THIS IS WHERE THE NAVIGATION CONTROLLER NEEDS TO GO
+    jackitNavigator = [[UINavigationController alloc] init];
+    
+    [jackitNavigator pushViewController:mainViewController animated:NO];
 
     // Add the main view controller's view to the window and display.
-    [self.window addSubview:mainViewController.view];
+    [self.window addSubview:jackitNavigator.view];
     [self.window makeKeyAndVisible];
 
     return YES;

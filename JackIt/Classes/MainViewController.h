@@ -1,5 +1,5 @@
 //
-//  MainViewController.h
+//  PlayViewController.h
 //  JackIt
 //
 //  Created by Alexander Joo on 1/19/11.
@@ -8,9 +8,10 @@
 
 #import <CoreMotion/CMMotionManager.h>
 #import <Foundation/Foundation.h>
+#import <iAd/iAd.h>
 #import "FlipsideViewController.h"
 #import "Game.h"
-#define TICKDURATION 0.03
+#define TICKDURATION 0.03 // this is in seconds
 
 @interface MainViewController : UIViewController <FlipsideViewControllerDelegate> {
     IBOutlet UILabel *excitementCounter; // This is the "arousal number"
@@ -18,8 +19,9 @@
     IBOutlet UILabel *decayValue;
     IBOutlet UILabel *accelData;
     IBOutlet UILabel *twistData;
+    IBOutlet UILabel *gameTime;
     IBOutlet UIProgressView *excitementBar; // This is a visual representation of arounsal
-
+    
     // Core came objects
     Game *theGame; // a pointer to a game object
     CMMotionManager *motionManager;
@@ -30,17 +32,12 @@
     NSTimer* gameTimer;
     double acceleration[3];
     Byte currentInputs; // holds the current state of all excitement inputs
+    CGFloat gameTimeInSeconds;
 }
 
 // General behavioral functions
 - (void)viewDidAppear:(BOOL)animated;
 - (BOOL)canBecomeFirstResponder;
-
-/*
-- (void)motionBegan:(UIEventSubtype)motion withEvent:(UIEvent *)event;
-- (void)motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event;
-- (void)motionCancelled:(UIEventSubtype)motion withEvent:(UIEvent *)event;
-*/
 
 // This function starts the game
 - (IBAction)ticklePickle:(UIBarButtonItem *)sender;
